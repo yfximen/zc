@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context="com.example.apac.rpcdata.ui.RegisterActivity">
+
+
+
+
+
+    <EditText
+        android:id="@+id/et_reproductname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:hint="推介人账号"
+        android:maxLength="11"/>
+
+    <EditText
+        android:id="@+id/et_reusername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:hint="请输入手机号"
+        android:maxLength="11"/>
+
+    <EditText
+        android:id="@+id/et_repassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:hint="请输入注册密码"
+        android:maxLength="11"
+        android:inputType="textPassword"/>
+
+
+
+    <EditText
+        android:id="@+id/et_repasswordok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:hint="请确认密码"
+        android:maxLength="11"
+        android:inputType="textPassword"/>
+
+
+    <TextView
+        android:id="@+id/tv_registerok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="注册"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:textColor="@color/colorPrimary"
+        android:autoLink="all"/>
+
+
+    <TextView
+        android:id="@+id/tv_returnlogin"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="返回登录"
+        android:padding="10dp"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorPrimary"
+        android:textSize="20dp"
+        android:textColor="@color/white"/>
+
+
+
+
+</LinearLayout>

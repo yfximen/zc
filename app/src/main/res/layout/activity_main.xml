@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context="com.example.apac.rpcdata.MainActivity">
+    <com.youth.banner.Banner
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="150dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+
+        >
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            >
+          <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="余额"
+
+            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15000"
+                android:id="@+id/balance"
+                />
+        </LinearLayout>
+            <TextView
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+                android:id="@+id/okRedPackes"
+                android:layout_weight="1"
+                android:text="确认红包链"
+                android:textColor="#f00"
+
+               />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="红包数"
+
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15000"
+                android:id="@+id/RedPackeNum"
+                />
+        </LinearLayout>
+    </LinearLayout>
+      <GridView
+          android:id="@+id/gridview"
+          android:layout_width="fill_parent"
+          android:layout_height="fill_parent"
+          android:columnWidth="90dp"
+          android:gravity="center"
+          android:horizontalSpacing="10dp"
+          android:numColumns="auto_fit"
+          android:stretchMode="columnWidth"
+          android:verticalSpacing="10dp"></GridView>
+
+
+
+
+</LinearLayout>
