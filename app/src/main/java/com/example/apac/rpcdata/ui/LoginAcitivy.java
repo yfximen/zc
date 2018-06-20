@@ -36,7 +36,12 @@ public class LoginAcitivy extends BaseActivity {
 
         mLoginTv.setOnClickListener(this);
         mRegisterTv.setOnClickListener(this);
+
+
+
     }
+
+
 
     @Override
     public void onClick(View v) {

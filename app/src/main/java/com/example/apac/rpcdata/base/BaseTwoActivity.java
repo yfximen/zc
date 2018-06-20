@@ -3,6 +3,7 @@ package com.example.apac.rpcdata.base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import butterknife.ButterKnife;
 
@@ -32,4 +33,4 @@ public abstract class BaseTwoActivity<T> extends AppCompatActivity {
     protected abstract void initData();
     protected abstract T getPersenter();
 
-}
+ }

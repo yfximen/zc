@@ -32,7 +32,7 @@
         <activity android:name=".ui.RedPacketActivity" />
         <activity android:name=".ui.Datails" />
         <activity android:name=".ui.PayMentActivity" />
-        <activity android:name=".ui.TransferActivity"></activity>
+        <activity android:name=".ui.TransferActivity" />
         <activity android:name=".ui.BalanceActivity"></activity>
     </application>
 

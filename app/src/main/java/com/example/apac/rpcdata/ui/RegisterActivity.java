@@ -1,82 +1,72 @@
 package com.example.apac.rpcdata.ui;
 
+
 import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.apac.rpcdata.R;
-import com.example.apac.rpcdata.utils.ToastUtil;
+ import com.example.apac.rpcdata.base.BaseTwoActivity;
+import com.example.apac.rpcdata.bean.RegisterBean;
+import com.example.apac.rpcdata.presenter.RegsitPresenter;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 
-public class RegisterActivity extends BaseActivity {
+public class RegisterActivity extends BaseTwoActivity<RegsitPresenter> implements Iview{
 
-     //推介人账号
-    @BindView(R.id.et_reproductname)
-     EditText reProductName;
-    //注册账号
-    @BindView(R.id.et_reusername)
-    EditText reUserName;
-    //注册密码
-    @BindView(R.id.et_repassword)
-    EditText rePwd;
-    //确认注册密码
-    @BindView(R.id.et_repasswordok)
-    EditText rePwdOk;
-    //注册按钮
     @BindView(R.id.tv_registerok)
-    TextView tvRegistOk;
-    //返回登录
-    @BindView(R.id.tv_returnlogin)
-    TextView tvReturnLogin;
+    Button tv_registerok;
+
+     @BindView(R.id.tv_returnlogin)
+     Button tv_returnlogin;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected int getViewID() {
+        return R.layout.activity_register;
+    }
 
-        setContentView(R.layout.activity_register);
-        super.onCreate(savedInstanceState);
-     tvRegistOk.setOnClickListener(this);
-     tvReturnLogin.setOnClickListener(this);
+    @Override
+    protected void initView() {
 
     }
 
     @Override
-    public void onClick(View v) {
-        super.onClick(v);
-        switch (v.getId()){
-            case R.id.tv_registerok: //注册按钮
+    protected void initData() {
 
-                String reProductNames = reProductName.getText().toString().trim();
-                String reUserNames = reUserName.getText().toString().trim();
+    }
 
-                String rePwds = rePwd.getText().toString().trim();
-                String rePwdOks = rePwdOk.getText().toString().trim();
+    @Override
+    protected RegsitPresenter getPersenter() {
+        return null;
+    }
 
+    @OnClick(R.id.tv_registerok)
+    public void onViewRegistOk() {
+        tv_registerok.setText("我被点击了");
 
-                if(reProductNames.equals("")||reUserNames.equals("") || rePwds.equals("")||rePwdOks.equals("")){
-                    ToastUtil.showToast(mContext , "请完善信息");
-                }else if(!rePwds.equals(rePwdOks)){
-                    ToastUtil.showToast(mContext , "密码不一致，请重新输入！");
+     }
+    @OnClick(R.id.tv_returnlogin)
+    public void onViewLogin() {
+        startActivity(new Intent(RegisterActivity.this,LoginAcitivy.class));
+        finish();
+        tv_returnlogin.setText("我被点击了");
 
-                }
+    }
 
-
-
-                break;
-            case R.id.tv_returnlogin://注册
-                Intent intent = new Intent(mContext, LoginAcitivy.class);
-                startActivity(intent);
-                finish();
-                break;
+    @Override
+    public void onFailed(String str) {
 
 
 
-        }
+    }
 
+    @Override
+    public void onSuccess(RegisterBean registerBean) {
 
     }
 }

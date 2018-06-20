@@ -1,6 +1,7 @@
 package com.example.apac.rpcdata.ui;
 
 import android.graphics.Color;
+import android.view.View;
 
 import com.example.apac.rpcdata.R;
 import com.example.apac.rpcdata.base.BaseTwoActivity;
@@ -60,4 +61,6 @@ public class RedPacketActivity extends BaseTwoActivity {
     protected Object getPersenter() {
         return null;
     }
+
+
 }

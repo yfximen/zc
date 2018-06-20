@@ -36,4 +36,6 @@ public class TransferActivity extends BaseTwoActivity {
     protected Object getPersenter() {
         return null;
     }
+
+
 }

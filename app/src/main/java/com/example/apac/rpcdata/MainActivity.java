@@ -122,8 +122,8 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener 
                     finish();
 
                 }else if (position==4){
-                     startActivity(new Intent(MainActivity.this,BalanceActivity.class));
-                     finish();
+                    startActivity(new Intent(MainActivity.this,BalanceActivity.class));
+                    finish();
                 }
 
 
