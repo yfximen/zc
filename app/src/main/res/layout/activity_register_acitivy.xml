@@ -5,10 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center_horizontal"
-    tools:context="com.example.apac.rpcdata.ui.RegisterActivity">
-
-
+    tools:context="com.example.apac.rpcdata.ui.RegisterAcitivy">
 
 
     <EditText
@@ -20,7 +17,7 @@
         />
 
     <EditText
-        android:text="1314"
+        android:text="131422"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ub_phone"
@@ -59,5 +56,4 @@
             android:text="注册"
             />
     </LinearLayout>
-
 </LinearLayout>

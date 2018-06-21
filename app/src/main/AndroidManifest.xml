@@ -28,12 +28,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.RegisterActivity" />
         <activity android:name=".ui.RedPacketActivity" />
         <activity android:name=".ui.Datails" />
         <activity android:name=".ui.PayMentActivity" />
         <activity android:name=".ui.TransferActivity" />
-        <activity android:name=".ui.BalanceActivity"></activity>
+        <activity android:name=".ui.BalanceActivity" />
+        <activity android:name=".ui.MyActivity" />
+        <activity android:name=".ui.RegisterAcitivy"></activity>
     </application>
 
 </manifest>

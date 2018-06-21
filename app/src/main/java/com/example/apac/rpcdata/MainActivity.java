@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.apac.rpcdata.ui.BalanceActivity;
+import com.example.apac.rpcdata.ui.MyActivity;
 import com.example.apac.rpcdata.ui.PayMentActivity;
 import com.example.apac.rpcdata.ui.RedPacketActivity;
 import com.example.apac.rpcdata.ui.TransferActivity;
@@ -124,6 +125,11 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener 
                 }else if (position==4){
                     startActivity(new Intent(MainActivity.this,BalanceActivity.class));
                     finish();
+                }else if (position==8){
+
+                    startActivity(new Intent(MainActivity.this,MyActivity.class));
+                    finish();
+
                 }
 
 

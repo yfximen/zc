@@ -66,7 +66,7 @@ public class LoginAcitivy extends BaseActivity {
 
                 break;
             case R.id.tv_register://注册
-                Intent intent = new Intent(mContext, RegisterActivity.class);
+                Intent intent = new Intent(mContext, RegisterAcitivy.class);
                 startActivity(intent);
                 break;
 

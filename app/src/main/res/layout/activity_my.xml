@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.apac.rpcdata.ui.MyActivity">
+     <RelativeLayout
+          android:background="@mipmap/jx4_2x"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+
+        <include layout="@layout/layout_title"></include>
+        <ImageView
+            android:layout_width="@dimen/px_200"
+            android:layout_height="@dimen/px_200"
+            android:src="@mipmap/z8_2x"
+
+            android:paddingTop="@dimen/px_100"
+            android:paddingLeft="@dimen/px_33"
+            android:paddingRight="@dimen/px_16"
+
+            />
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:id="@+id/my_name"
+             android:text="东方不败"
+             android:textColor="@color/white"
+             android:layout_marginTop="@dimen/px_100"
+             android:layout_marginLeft="@dimen/px_200"
+             android:layout_marginBottom="@dimen/px_50"
+             />
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:id="@+id/my_grade"
+             android:text="信用等级:"
+             android:textColor="@color/white"
+             android:layout_marginTop="@dimen/px_150"
+             android:layout_marginLeft="@dimen/px_200"
+             android:layout_marginBottom="@dimen/px_50"
+             />
+
+     </RelativeLayout>
+     <ListView
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:id="@+id/myList"
+         >
+
+
+
+     </ListView>
+
+</LinearLayout>
