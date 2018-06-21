@@ -12,7 +12,7 @@
         android:text="01237878"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tjr_phone"
+        android:id="@+id/reg_tjr_phone"
         android:hint="推介人账号"
         />
 
@@ -20,22 +20,22 @@
         android:text="131422"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ub_phone"
+        android:id="@+id/reg_ub_phone"
         android:hint="输入本人账号"
         />
     <EditText
         android:text="123456"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ud_pwd"
-        android:hint="输入密码"
+        android:id="@+id/reg_ud_pwd"
+        android:hint="输入6位数密码"
         />
 
     <EditText
         android:text="123456"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvpassword"
+        android:id="@+id/reg_tvpassword"
         android:hint="确认密码"
         />
     <LinearLayout
@@ -46,13 +46,13 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btdl"
+            android:id="@+id/reg_btdl"
             android:text="登录"
             />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btzc"
+            android:id="@+id/reg_btzc"
             android:text="注册"
             />
     </LinearLayout>
