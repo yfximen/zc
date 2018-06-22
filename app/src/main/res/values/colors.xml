@@ -7,4 +7,10 @@
     <color name="text_333">#333333</color>
     <color name="text_blue">#f00</color>
 
+    <color name="gray_333">#333333</color>
+    <color name="gray_666">#666666</color>
+    <color name="gray_999">#999999</color>
+    <color name="gray">#eeeeee</color>
+    <color name="red">#ff2802</color>
+
 </resources>

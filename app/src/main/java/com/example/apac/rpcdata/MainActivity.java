@@ -19,10 +19,12 @@ import com.example.apac.rpcdata.ui.MyActivity;
 import com.example.apac.rpcdata.ui.PayMentActivity;
 import com.example.apac.rpcdata.ui.RedPacketActivity;
 import com.example.apac.rpcdata.ui.TransferActivity;
+import com.example.apac.rpcdata.ui.pay.ScanUI;
+import com.example.apac.rpcdata.ui.receiptcode.ReceiptCodeUI;
 import com.example.apac.rpcdata.utils.ToastUtil;
-import com.uuzuche.lib_zxing.activity.CaptureActivity;
-import com.uuzuche.lib_zxing.activity.CodeUtils;
-import com.uuzuche.lib_zxing.activity.ZXingLibrary;
+//import com.uuzuche.lib_zxing.activity.CaptureActivity;
+//import com.uuzuche.lib_zxing.activity.CodeUtils;
+//import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -70,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener 
         setContentView(R.layout.activity_main);
         initView();
         initNine();
-        ZXingLibrary.initDisplayOpinion(this);
+//        ZXingLibrary.initDisplayOpinion(this);
     }
 
     private void initNine() {
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
-                Toast.makeText(MainActivity.this, position+"", Toast.LENGTH_LONG).show();
+//                Toast.makeText(MainActivity.this, position+"", Toast.LENGTH_LONG).show();
                 if (position==0){
                     Intent intent=new Intent(MainActivity.this, RedPacketActivity.class);
                     startActivity(intent);
@@ -111,12 +113,16 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener 
 
                 }else if (position==1){
 
-                    Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
-                    startActivityForResult(intent, REQUEST_CODE);
+//                    Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+//                    startActivityForResult(intent, REQUEST_CODE);
+                    Intent intent=new Intent(MainActivity.this, ScanUI.class);
+                    startActivity(intent);
 
                 }else if (position==2){
-                    ToastUtil.showToast(MainActivity.this,"敬请期待");
-                    finish();
+//                    ToastUtil.showToast(MainActivity.this,"敬请期待");
+//                    finish();
+                    Intent intent=new Intent(MainActivity.this, ReceiptCodeUI.class);
+                    startActivity(intent);
 
                 }else if (position==3){
                      startActivity(new Intent(MainActivity.this,TransferActivity.class));
@@ -143,22 +149,22 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener 
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE) {
             //处理扫描结果（在界面上显示）
-            if (null != data) {
-                Bundle bundle = data.getExtras();
-                if (bundle == null) {
-                    return;
-                }
-                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
-                    String result = bundle.getString(CodeUtils.RESULT_STRING);
-                    Toast.makeText(this, "解析结果:" + result, Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(MainActivity.this, PayMentActivity.class));
-                    finish();
-
-
-                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                    Toast.makeText(MainActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
-                }
-            }
+//            if (null != data) {
+//                Bundle bundle = data.getExtras();
+//                if (bundle == null) {
+//                    return;
+//                }
+//                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+//                    String result = bundle.getString(CodeUtils.RESULT_STRING);
+//                    Toast.makeText(this, "解析结果:" + result, Toast.LENGTH_LONG).show();
+//                    startActivity(new Intent(MainActivity.this, PayMentActivity.class));
+//                    finish();
+//
+//
+//                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+//                    Toast.makeText(MainActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
+//                }
+//            }
         }
     }
 

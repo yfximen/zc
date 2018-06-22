@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -35,6 +36,19 @@
         <activity android:name=".ui.BalanceActivity" />
         <activity android:name=".ui.MyActivity" />
         <activity android:name=".ui.RegisterAcitivy"></activity>
+
+        <activity
+            android:name=".ui.pay.ScanUI"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.pay.ScanResultUI"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.receiptcode.ReceiptCodeUI"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>
