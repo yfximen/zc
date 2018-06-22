@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".MyApplication"
@@ -47,6 +48,18 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.receiptcode.ReceiptCodeUI"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.transfer.TransferUI"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.balancerecord.BalanceRecordUI"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.invitefriend.InviteFriendUI"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
     </application>

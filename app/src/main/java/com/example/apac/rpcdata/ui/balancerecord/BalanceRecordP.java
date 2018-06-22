@@ -1,9 +1,9 @@
-package com.example.apac.rpcdata.ui.receiptcode;
+package com.example.apac.rpcdata.ui.balancerecord;
 
 import android.support.v4.app.FragmentActivity;
 
 import com.alibaba.fastjson.JSON;
-import com.example.apac.rpcdata.bean.ReceiptCodeBean;
+import com.example.apac.rpcdata.bean.BalanceRecordBean;
 import com.example.apac.rpcdata.ui.BasePresenter;
 import com.example.apac.rpcdata.utils.NetworkUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -17,36 +17,39 @@ import okhttp3.Call;
  * Created by user on 2018/6/22.
  */
 
-public class ReceiptCodeP extends BasePresenter {
+public class BalanceRecordP extends BasePresenter {
 
-    private ReceiptCodePface face;
+    private BalanceRecordPface face;
 
-    public ReceiptCodeP(ReceiptCodePface face, FragmentActivity activity) {
+    public BalanceRecordP(BalanceRecordPface face, FragmentActivity activity) {
         this.face = face;
         setActivity(activity);
     }
 
     /**
-     * 生成收款码  邀请码
+     * 余额记录
      */
-    public void getReceiptCode(int id) {
+    public void getBalanceRecord(int id, final int page) {
         showProgressDialog();
         Map<String, String> params = new HashMap<>();
+        params.put("page", page + "");
         NetworkUtils.getNetworkUtils().send(id, params, new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int i) {
                 dismissProgressDialog();
                 makeText("数据请求失败");
+                face.setNoData();
             }
 
             @Override
             public void onResponse(String s, int i) {
                 if ("{".equals(s.substring(0, 1))) {
-                    ReceiptCodeBean receiptCodeBean = JSON.parseObject(s, ReceiptCodeBean.class);
-                    if ("10".equals(receiptCodeBean.getResult().getCode())){
-                        face.setReceiptCode(receiptCodeBean);
+                    BalanceRecordBean balanceRecordBean = JSON.parseObject(s, BalanceRecordBean.class);
+                    if ("10".equals(balanceRecordBean.getResult().getCode())) {
+                        face.setBalanceRecord(balanceRecordBean, page);
                     } else {
-                        makeText(receiptCodeBean.getResult().getInfo());
+                        makeText(balanceRecordBean.getResult().getInfo());
+                        face.setNoData();
                     }
                 } else {
                     makeText("数据异常");
@@ -56,8 +59,10 @@ public class ReceiptCodeP extends BasePresenter {
         });
     }
 
-    public interface ReceiptCodePface {
-        void setReceiptCode(ReceiptCodeBean receiptCodeBean);
+    public interface BalanceRecordPface {
+        void setBalanceRecord(BalanceRecordBean balanceRecordBean, int curPage);
+
+        void setNoData();
     }
 
 }

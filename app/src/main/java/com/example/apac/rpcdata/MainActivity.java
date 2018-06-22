@@ -19,8 +19,11 @@ import com.example.apac.rpcdata.ui.MyActivity;
 import com.example.apac.rpcdata.ui.PayMentActivity;
 import com.example.apac.rpcdata.ui.RedPacketActivity;
 import com.example.apac.rpcdata.ui.TransferActivity;
+import com.example.apac.rpcdata.ui.balancerecord.BalanceRecordUI;
+import com.example.apac.rpcdata.ui.invitefriend.InviteFriendUI;
 import com.example.apac.rpcdata.ui.pay.ScanUI;
 import com.example.apac.rpcdata.ui.receiptcode.ReceiptCodeUI;
+import com.example.apac.rpcdata.ui.transfer.TransferUI;
 import com.example.apac.rpcdata.utils.ToastUtil;
 //import com.uuzuche.lib_zxing.activity.CaptureActivity;
 //import com.uuzuche.lib_zxing.activity.CodeUtils;
@@ -125,12 +128,19 @@ public class MainActivity extends AppCompatActivity implements OnBannerListener 
                     startActivity(intent);
 
                 }else if (position==3){
-                     startActivity(new Intent(MainActivity.this,TransferActivity.class));
-                    finish();
+//                     startActivity(new Intent(MainActivity.this,TransferActivity.class));
+//                    finish();
+                    Intent intent=new Intent(MainActivity.this, TransferUI.class);
+                    startActivity(intent);
 
                 }else if (position==4){
-                    startActivity(new Intent(MainActivity.this,BalanceActivity.class));
-                    finish();
+//                    startActivity(new Intent(MainActivity.this,BalanceActivity.class));
+//                    finish();
+                    Intent intent=new Intent(MainActivity.this, BalanceRecordUI.class);
+                    startActivity(intent);
+                }else if (position==6){
+                    Intent intent=new Intent(MainActivity.this, InviteFriendUI.class);
+                    startActivity(intent);
                 }else if (position==8){
 
                     startActivity(new Intent(MainActivity.this,MyActivity.class));

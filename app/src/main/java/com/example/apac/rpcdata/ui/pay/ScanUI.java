@@ -79,9 +79,10 @@ public class ScanUI extends BaseUI implements QRCodeView.Delegate {
         vibrate();
         mQRCodeView.startSpot();
         if (result.contains("index.php")) {
-            Toast.makeText(this, "此扫描仅支持欧力币支付", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "此扫描仅支持红包链支付", Toast.LENGTH_SHORT).show();
         } else {
             Intent intent = new Intent(ScanUI.this, ScanResultUI.class);
+            intent.putExtra("ui", "pay");
             intent.putExtra("url", result);
             startActivity(intent);
             finish();
