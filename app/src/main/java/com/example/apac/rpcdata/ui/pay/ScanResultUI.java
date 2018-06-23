@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.example.apac.rpcdata.R;
 import com.example.apac.rpcdata.bean.PayInfoBean;
 import com.example.apac.rpcdata.ui.BaseUI;
+import com.example.apac.rpcdata.utils.CommonUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -115,7 +116,7 @@ public class ScanResultUI extends BaseUI implements ScanResultP.ScanResultPface 
             makeText("支付密码不能为空");
             return;
         }
-        scanResultP.getPay(R.string.pay, to_ub_id, phone, mount, payPwd);
+        scanResultP.getPay(R.string.pay, to_ub_id, phone, mount, CommonUtils.getMD5Value(payPwd));
     }
 
     @Override
