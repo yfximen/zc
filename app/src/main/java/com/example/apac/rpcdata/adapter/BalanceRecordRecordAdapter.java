@@ -38,11 +38,20 @@ public class BalanceRecordRecordAdapter extends RecyclerView.Adapter<BalanceReco
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        holder.tv_time.setText(list.get(position).getRro_time());
+        holder.tv_note.setText(list.get(position).getRro_info());
+        if ("-1".equals(list.get(position).getRro_dir())) {
+            holder.tv_amount.setTextColor(Color.parseColor("#666666"));
+            holder.tv_amount.setText("-" + list.get(position).getRro_num());
+        } else if ("1".equals(list.get(position).getRro_dir())) {
+            holder.tv_amount.setTextColor(Color.parseColor("#ff2802"));
+            holder.tv_amount.setText("+" + list.get(position).getRro_num());
+        }
     }
 
     @Override
     public int getItemCount() {
-        return list == null ? 2 : list.size();
+        return list == null ? 0 : list.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

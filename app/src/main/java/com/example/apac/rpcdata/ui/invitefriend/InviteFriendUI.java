@@ -23,9 +23,6 @@ public class InviteFriendUI extends BaseUI implements ReceiptCodeP.ReceiptCodePf
     @BindView(R.id.iv_invite_erweima)
     ImageView iv_invite_erweima;
 
-    @BindView(R.id.tv_invite_recommend_code)
-    TextView tv_invite_recommend_code;
-
     @BindView(R.id.tv_invite_recommend_adr)
     TextView tv_invite_recommend_adr;
 
@@ -55,6 +52,7 @@ public class InviteFriendUI extends BaseUI implements ReceiptCodeP.ReceiptCodePf
     @Override
     public void setReceiptCode(ReceiptCodeBean receiptCodeBean) {
         Glide.with(this).load(receiptCodeBean.getUrl_qrcode()).into(iv_invite_erweima);
+        tv_invite_recommend_adr.setText(receiptCodeBean.getUrl_web());
     }
 
     @OnClick(R.id.tv_invite_recommend_adr)

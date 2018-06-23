@@ -7,7 +7,7 @@ package com.example.apac.rpcdata.bean;
 public class BalanceRecordOrderBean {
 
     private String rro_num;
-    private String rro_date;
+    private String rro_time;
     private String rro_dir;
     private String rro_info;
 
@@ -19,12 +19,12 @@ public class BalanceRecordOrderBean {
         this.rro_num = rro_num;
     }
 
-    public String getRro_date() {
-        return rro_date;
+    public String getRro_time() {
+        return rro_time;
     }
 
-    public void setRro_date(String rro_date) {
-        this.rro_date = rro_date;
+    public void setRro_time(String rro_time) {
+        this.rro_time = rro_time;
     }
 
     public String getRro_dir() {

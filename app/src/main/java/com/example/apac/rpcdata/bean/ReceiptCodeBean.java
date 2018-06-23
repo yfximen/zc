@@ -8,6 +8,7 @@ public class ReceiptCodeBean {
 
     private ResultBean result;
     private String url_qrcode;
+    private String url_web;
 
     public ResultBean getResult() {
         return result;
@@ -23,5 +24,13 @@ public class ReceiptCodeBean {
 
     public void setUrl_qrcode(String url_qrcode) {
         this.url_qrcode = url_qrcode;
+    }
+
+    public String getUrl_web() {
+        return url_web;
+    }
+
+    public void setUrl_web(String url_web) {
+        this.url_web = url_web;
     }
 }

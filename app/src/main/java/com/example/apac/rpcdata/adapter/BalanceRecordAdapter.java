@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.apac.rpcdata.R;
 import com.example.apac.rpcdata.bean.BalanceRecordListBean;
+import com.example.apac.rpcdata.bean.BalanceRecordOrderBean;
 
 import java.util.List;
 
@@ -53,13 +54,15 @@ public class BalanceRecordAdapter extends RecyclerView.Adapter<BalanceRecordAdap
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        BalanceRecordRecordAdapter recordAdapter = new BalanceRecordRecordAdapter(context, null);
+        holder.tv_date.setText(list.get(position).getDate());
+        List<BalanceRecordOrderBean> lists = list.get(position).getList();
+        BalanceRecordRecordAdapter recordAdapter = new BalanceRecordRecordAdapter(context, lists);
         holder.rv_record.setAdapter(recordAdapter);
     }
 
     @Override
     public int getItemCount() {
-        return list == null ? 2 : list.size();
+        return list == null ? 0 : list.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

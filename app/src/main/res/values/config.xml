@@ -19,4 +19,7 @@
     <!--1.8	转账 读取支付信息(transfer_to)-->
     <string name="transfer_to">/index.php/rpc/transfer_to</string>
 
+    <!--1.10 余额记录(myrpc)-->
+    <string name="myrpc">/index.php/rpc/myrpc</string>
+
 </resources>
