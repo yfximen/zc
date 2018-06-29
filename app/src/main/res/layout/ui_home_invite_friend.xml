@@ -1,15 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical">
+     >
 
-    <include layout="@layout/include_title" />
-
-    <include layout="@layout/line_20" />
 
     <ImageView
+        android:layout_marginBottom="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px_388"
+        android:src="@mipmap/z3x"
+        android:id="@+id/img_welcome"
+        android:scaleType="fitXY"
+        />
+
+    <TextView
+
+        android:layout_below="@+id/img_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="余额:"
+        android:layout_marginLeft="@dimen/px_28"
+        android:layout_marginTop="@dimen/px_28"
+        android:layout_marginBottom="@dimen/px_36"
+
+        android:id="@+id/ye"
+        />
+
+    <TextView
+        android:text="1000"
+        android:layout_below="@+id/img_welcome"
+        android:id="@+id/home_num_yqye"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/px_90"
+        android:layout_marginLeft="@dimen/px_28"
+        android:layout_marginTop="@dimen/px_28"
+        android:layout_marginBottom="@dimen/px_36"
+        />
+
+    <TextView
+        android:background="@color/white"
+        android:clickable="true"
+
+        android:id="@+id/red_packet_ok1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/px_18"
+        android:layout_marginLeft="@dimen/px_280"
+        android:text=""
+        android:layout_below="@+id/img_welcome"
+        android:textColor="#af00"
+        android:textSize="18dp" />
+
+
+    <TextView
+        android:layout_below="@+id/img_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="红包数:"
+        android:layout_marginLeft="@dimen/px_500"
+        android:layout_marginTop="@dimen/px_28"
+        android:layout_marginBottom="@dimen/px_36"
+        android:id="@+id/textView" />
+
+    <TextView
+        android:text="1000"
+
+        android:layout_below="@+id/img_welcome"
+        android:id="@+id/home_count_yqhy"
+        android:layout_marginTop="@dimen/px_28"
+        android:layout_marginBottom="@dimen/px_36"
+        android:layout_marginRight="@dimen/px_28"
+        android:layout_marginLeft="@dimen/px_620"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_below="@id/home_count_yqhy"
+        android:layout_width="match_parent"
+        android:scaleType="fitXY"
+        android:src="@mipmap/fg_2x"
+        android:id="@+id/fe1"
+        android:layout_height="wrap_content" />
+    <ImageView
+         android:layout_marginLeft="@dimen/px_220"
+        android:layout_below="@+id/fe1"
         android:id="@+id/iv_invite_erweima"
         android:layout_width="160dp"
         android:layout_height="160dp"
@@ -17,7 +94,8 @@
         android:layout_marginTop="50dp" />
 
     <TextView
-        android:id="@+id/tv_invite_recommend_code"
+        android:layout_below="@+id/iv_invite_erweima"
+         android:id="@+id/tv_invite_recommend_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -32,6 +110,7 @@
         android:visibility="gone" />
 
     <LinearLayout
+        android:layout_below="@+id/tv_invite_recommend_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
@@ -59,4 +138,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

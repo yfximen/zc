@@ -6,5 +6,5 @@ package com.example.apac.rpcdata.api;
 
 public class Api {
 
-    public static final String HOST_NAME = "rpc.frps.lchtime.cn";
+    public static final String HOST_URL = "http://rpc.frps.lchtime.cn/index.php/caiwu/bund";
 }

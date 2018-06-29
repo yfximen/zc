@@ -3,11 +3,13 @@ package com.example.apac.rpcdata.ui.transfer;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.apac.rpcdata.R;
 import com.example.apac.rpcdata.bean.PayInfoBean;
 import com.example.apac.rpcdata.ui.BaseUI;
 import com.example.apac.rpcdata.ui.pay.ScanResultUI;
+import com.example.apac.rpcdata.utils.Sp;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -23,7 +25,10 @@ public class TransferUI extends BaseUI implements TransferP.TransferPface {
     EditText et_transfer_phone;
 
     private TransferP transferP;
-
+    @BindView(R.id.receipt_count_page1)
+    TextView receipt_count_page1;
+    @BindView(R.id.receipt_num_page1)
+    TextView receipt_num_page1;
     @Override
     protected void back() {
         finish();
@@ -36,6 +41,10 @@ public class TransferUI extends BaseUI implements TransferP.TransferPface {
 
     @Override
     protected void setControlBasis() {
+        String count = Sp.getInData(this).getCount();
+        String num = Sp.getInData(this).getNum();
+        receipt_count_page1.setText(count);
+        receipt_num_page1.setText(num);
         setTitle("转账");
         transferP = new TransferP(this, getActivity());
     }

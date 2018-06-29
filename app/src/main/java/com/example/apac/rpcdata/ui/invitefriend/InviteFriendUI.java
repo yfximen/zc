@@ -9,6 +9,7 @@ import com.example.apac.rpcdata.bean.ReceiptCodeBean;
 import com.example.apac.rpcdata.ui.BaseUI;
 import com.example.apac.rpcdata.ui.receiptcode.ReceiptCodeP;
 import com.example.apac.rpcdata.utils.CommonUtils;
+import com.example.apac.rpcdata.utils.Sp;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -28,6 +29,11 @@ public class InviteFriendUI extends BaseUI implements ReceiptCodeP.ReceiptCodePf
 
     private ReceiptCodeP receiptCodeP;
 
+    @BindView(R.id.home_count_yqhy)
+    TextView home_count_yqhy;
+    @BindView(R.id.home_num_yqye)
+    TextView home_num_yqye;
+
     @Override
     protected void back() {
         finish();
@@ -40,6 +46,10 @@ public class InviteFriendUI extends BaseUI implements ReceiptCodeP.ReceiptCodePf
 
     @Override
     protected void setControlBasis() {
+        String count = Sp.getInData(this).getCount();
+        String num = Sp.getInData(this).getNum();
+        home_count_yqhy.setText(count);
+        home_num_yqye.setText(num);
         setTitle("邀请好友");
         receiptCodeP = new ReceiptCodeP(this, getActivity());
     }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/welcom3x"
+    tools:context="com.example.apac.rpcdata.ui.me.Welcom">
+
+
+
+    <TextView
+        android:layout_marginTop="@dimen/px_1110"
+        android:layout_below="@+id/tv_register"
+        android:id="@+id/go_to"
+        style="@style/textview_style"
+        android:layout_centerHorizontal="true"
+        android:layout_width="@dimen/px_200"
+        android:text="立即体验"
+         />
+</RelativeLayout>

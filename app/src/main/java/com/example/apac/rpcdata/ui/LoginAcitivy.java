@@ -1,27 +1,30 @@
 package com.example.apac.rpcdata.ui;
 
-import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.example.apac.rpcdata.MainActivity;
 import com.example.apac.rpcdata.R;
 import com.example.apac.rpcdata.bean.LoginBean;
+import com.example.apac.rpcdata.utils.AppMD5Util;
+import com.example.apac.rpcdata.utils.Sp;
 import com.example.apac.rpcdata.utils.ToastUtil;
-import com.example.apac.rpcdata.utils.UserBean;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.util.List;
 
 import butterknife.BindView;
 import okhttp3.FormBody;
@@ -29,15 +32,13 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.AppSettingsDialog;
-import pub.devrel.easypermissions.EasyPermissions;
 
 
 /**
  * 登录模块
  */
-public class LoginAcitivy extends BaseActivity implements EasyPermissions.PermissionCallbacks {
+public class LoginAcitivy extends BaseActivity implements View.OnClickListener {
+
     @BindView(R.id.et_username)
     EditText mUserNameEt;
     @BindView(R.id.et_password)
@@ -49,6 +50,7 @@ public class LoginAcitivy extends BaseActivity implements EasyPermissions.Permis
     TextView mRegisterTv;
     final OkHttpClient client = new OkHttpClient();
 
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
 
         @Override
@@ -58,10 +60,26 @@ public class LoginAcitivy extends BaseActivity implements EasyPermissions.Permis
                 Log.i("获取的返回信息", ReturnMessage);
                 LoginBean userBean = new Gson().fromJson(ReturnMessage, LoginBean.class);
                 String info = userBean.getResult().getInfo();
+                int ub_id = userBean.getUb_id();
+                Sp inData = Sp.getInData(LoginAcitivy.this);
                 /***
                  * 在此处可以通过获取到的Msg值来判断
                  * 给出用户提示注册成功 与否，以及判断是否用户名已经存在
+                 *
                  */
+                if (info.equals("登陆成功")) {
+                    Intent intent = new Intent(LoginAcitivy.this, MainActivity.class);
+
+                    String sid = userBean.getResult().getSid();
+                    Log.i("siddddddd", sid);
+                    AppMD5Util md5Util = new AppMD5Util();
+
+
+                    intent.putExtra("sid", sid);
+                    startActivity(intent);
+                    finish();
+                }
+
                 Toast.makeText(LoginAcitivy.this, info, Toast.LENGTH_SHORT).show();
 
             }
@@ -69,18 +87,42 @@ public class LoginAcitivy extends BaseActivity implements EasyPermissions.Permis
         }
 
     };
+    private LoginBean userBean;
+    /**
+     * 忘记密码？
+     */
+    private TextView mForget;
+    private ImageView mImgBack;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.activity_login_acitivy);
-        super.onCreate(savedInstanceState);
-        requestPermissions();
+         super.onCreate(savedInstanceState);
+
         mLoginTv.setOnClickListener(this);
         mRegisterTv.setOnClickListener(this);
 
 
     }
 
+    private void initState() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //透明导航栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
+    }
+
+    @Override
+    public void setContentView(View view) {
+        super.setContentView(view);
+        initState();
+    }
 
     @Override
     public void onClick(View v) {
@@ -88,18 +130,26 @@ public class LoginAcitivy extends BaseActivity implements EasyPermissions.Permis
 
         switch (v.getId()) {
             case R.id.tv_login: //登录
+                String usernameEt = mUserNameEt.getText().toString().trim();
 
-                String username = mUserNameEt.getText().toString().trim();
-                String password = mPasswordEt.getText().toString().trim();
-                if (username.equals("") || password.equals("")) {
+                String passwordEt = mPasswordEt.getText().toString().trim();
+
+                //MD5加密登陆的密码
+                AppMD5Util appMD5Util = new AppMD5Util();
+                String passwordEtPwd = appMD5Util.MD5Util(passwordEt);
+                //将加密过的登陆密码存入sp
+                Sp inData = Sp.getInData(LoginAcitivy.this);
+                inData.setUserPwd(passwordEtPwd);
+
+                Log.i("LoginMD5", passwordEtPwd);
+                if (usernameEt.equals("") || passwordEt.equals("")) {
                     ToastUtil.showToast(mContext, "请完善信息");
-                } else {
 
-                    postRequest(username, password);
-                    startActivity(new Intent(LoginAcitivy.this, MainActivity.class));
-                    finish();
+                } else if (!usernameEt.equals("") && !passwordEt.equals("")) {
+
+                    postRequest(usernameEt, passwordEtPwd);
+
                 }
-
 
                 break;
             case R.id.tv_register://注册
@@ -129,6 +179,7 @@ public class LoginAcitivy extends BaseActivity implements EasyPermissions.Permis
                 .build();
         //发起请求
         final Request request = new Request.Builder()
+
                 .url("http://rpc.frps.lchtime.cn/index.php/user/login")
                 .post(formBody)
                 .build();
@@ -155,41 +206,5 @@ public class LoginAcitivy extends BaseActivity implements EasyPermissions.Permis
 
     }
 
-    private static final int REQUEST_PERMISSIONS = 1;
-
-    @AfterPermissionGranted(REQUEST_PERMISSIONS)
-    private void requestPermissions() {
-        String[] perms = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_PHONE_STATE};
-        if (!EasyPermissions.hasPermissions(this, perms)) {
-            EasyPermissions.requestPermissions(this, "请开启红包链所需权限，否则无法正常使用", REQUEST_PERMISSIONS, perms);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-    }
-
-    @Override
-    public void onPermissionsGranted(int requestCode, List<String> perms) {
-
-    }
-
-    @Override
-    public void onPermissionsDenied(int requestCode, List<String> perms) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            new AppSettingsDialog.Builder(this).build().show();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
-
-        }
-    }
 
 }

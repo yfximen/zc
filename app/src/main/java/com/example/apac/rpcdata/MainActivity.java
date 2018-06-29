@@ -1,240 +1,483 @@
 package com.example.apac.rpcdata;
 
 
-import android.content.Context;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
-
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
+import android.view.Window;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
-import android.widget.SimpleAdapter;
-import android.widget.Toast;
+import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
-import com.bumptech.glide.Glide;
-import com.example.apac.rpcdata.ui.BalanceActivity;
+import com.example.apac.rpcdata.bean.HomeBean;
+import com.example.apac.rpcdata.ui.FaRedPageActivity;
 import com.example.apac.rpcdata.ui.MyActivity;
-import com.example.apac.rpcdata.ui.PayMentActivity;
-import com.example.apac.rpcdata.ui.RedPacketActivity;
-import com.example.apac.rpcdata.ui.TransferActivity;
 import com.example.apac.rpcdata.ui.balancerecord.BalanceRecordUI;
 import com.example.apac.rpcdata.ui.invitefriend.InviteFriendUI;
 import com.example.apac.rpcdata.ui.pay.ScanUI;
 import com.example.apac.rpcdata.ui.receiptcode.ReceiptCodeUI;
 import com.example.apac.rpcdata.ui.transfer.TransferUI;
+import com.example.apac.rpcdata.utils.Sp;
 import com.example.apac.rpcdata.utils.ToastUtil;
+import com.google.gson.Gson;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import butterknife.ButterKnife;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 //import com.uuzuche.lib_zxing.activity.CaptureActivity;
 //import com.uuzuche.lib_zxing.activity.CodeUtils;
 //import com.uuzuche.lib_zxing.activity.ZXingLibrary;
-import com.youth.banner.Banner;
-import com.youth.banner.BannerConfig;
-import com.youth.banner.Transformer;
-import com.youth.banner.listener.OnBannerListener;
-import com.youth.banner.loader.ImageLoader;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+public class MainActivity extends Activity implements View.OnClickListener {
 
-public class MainActivity extends AppCompatActivity implements OnBannerListener {
-    private Banner banner;
+    private static final int REQUEST_CODE = 0x1111;
     private ArrayList<String> list_path;
     private ArrayList<String> list_title;
-    private static final int REQUEST_CODE = 0x1111;
+    final OkHttpClient client = new OkHttpClient();
+    private String sid;
+    private ViewSwitcher mViewSwitcher;
+    private HomeBean homeBean;
+    private int rpc_level;
 
-    //定义图标数组
-    private int[] imageRes = {
-            R.mipmap.icon_weixin,
-            R.mipmap.icon_weixin,
-            R.mipmap.icon_weixin,
-            R.mipmap.icon_weixin,
-            R.mipmap.icon_weixin,
-            R.mipmap.icon_weixin,
-            R.mipmap.icon_weixin,
-            R.mipmap.icon_weixin,
-            R.mipmap.icon_weixin,
-    };
+    private List<HomeBean.RpcUpBean> rpc_up;
 
-    //定义图标下方的名称数组
-    private String[] name = {
-            "红包链",
-            "支付",
-            "收款码",
-            "转账",
-            "余额记录",
-            "商城",
-            "邀请好友",
-            "数字资产",
-            "我的"
+    private TextView red_packet_ok;
+    private String rpc_count;
+    private String rpc_num;
+    private TextView home_count_page1;
+    private TextView home_num_page1;
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+
+
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 1) {
+                String ReturnMessage = (String) msg.obj;
+                Log.i("获取的返回信息", ReturnMessage);
+                homeBean = new Gson().fromJson(ReturnMessage, HomeBean.class);
+                String info = homeBean.getResult().getInfo();
+
+                //判断用户的状态，0为未完成发红包，1为完成
+                rpc_level = homeBean.getRpc_level();
+                if (rpc_level == 1) {
+                    red_packet_ok.setText("");
+
+                } else {
+                    red_packet_ok.setText("确认红包链");
+
+                }
+                rpc_num = homeBean.getRpc_num();
+                rpc_count = homeBean.getRpc_count();
+                Sp.getInData(MainActivity.this).setNum(rpc_num);
+                 Sp.getInData(MainActivity.this).setCount(rpc_count);
+                home_count_page1.setText(rpc_count);
+                home_num_page1.setText(rpc_num);
+
+                //得到用户要发送红包的用户id
+                rpc_up = homeBean.getRpc_up();
+
+                /***
+                 * 在此处可以通过获取到的Msg值来判断
+                 * 给出用户提示注册成功 与否，以及判断是否用户名已经存在
+                 *
+                 */
+
+
+            }
+
+        }
+
     };
+    private ImageView mImgWelcome;
+    /**
+     * 余额:
+     */
+    private TextView mYe;
+    /**
+     * 1000
+     */
+    private TextView mHomeNumPage1;
+    /**
+     * 红包数:
+     */
+    private TextView mTextView;
+    /**
+     * 1000
+     */
+    private TextView mHomeCountPage1;
+    private ImageView mFe1;
+    private ImageView mHblImg;
+    /**
+     * 红包链
+     */
+    private TextView mHblTv;
+    private ImageView mZfImg;
+    /**
+     * 支付
+     */
+    private TextView mZfTv;
+    private ImageView mSkmImg;
+    /**
+     * 收款码
+     */
+    private TextView mSkmTv;
+    private ImageView mZzImg;
+    /**
+     * 转账
+     */
+    private TextView mZzTv;
+    private ImageView mYejlImg;
+    /**
+     * 余额记录
+     */
+    private TextView mYejlTv;
+    private ImageView mScImg;
+    /**
+     * 商城
+     */
+    private TextView mScTv;
+    private ImageView mYqhyImg;
+    /**
+     * 邀请好友
+     */
+    private TextView mYqhyTv;
+    private ImageView mSzzcImg;
+    /**
+     * 数字资产
+     */
+    private TextView mSzzcTv;
+    private ImageView mWdImg;
+    /**
+     * 我的
+     */
+    private TextView mWdTv;
+    /**  */
+    private TextView mRedPacketOk;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        ButterKnife.bind(this);
         setContentView(R.layout.activity_main);
+
+        Intent intent = this.getIntent();
+        sid = intent.getStringExtra("sid");
+        Sp.getInData(MainActivity.this).setSid(sid);
+
         initView();
+
+        initData();
         initNine();
-//        ZXingLibrary.initDisplayOpinion(this);
+
+    }
+
+    private void initData() {
+
+        postRequest(sid);
+
     }
 
     private void initNine() {
-        GridView gridview = (GridView) findViewById(R.id.gridview);
-        int length = imageRes.length;
+        if (rpc_level == 0) {
+            //确认发送红包
+            red_packet_ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(MainActivity.this, FaRedPageActivity.class);
+                    intent.putExtra("rpc_count", rpc_count);
+                    intent.putExtra("rpc_num", rpc_num);
+                     intent.putExtra("sid", sid);
+                    Log.i("sid--------", sid);
+                    Log.i("ub_id_1", rpc_up.get(0).getUb_id());
+                    Log.i("ub_id_2", rpc_up.get(1).getUb_id());
+                    Log.i("ub_id_3", rpc_up.get(2).getUb_id());
+                    Log.i("ub_id_4", rpc_up.get(3).getUb_id());
+                    Log.i("ub_id_5", rpc_up.get(4).getUb_id());
 
-        //生成动态数组，并且转入数据
-        ArrayList<HashMap<String, Object>> lstImageItem = new ArrayList<HashMap<String, Object>>();
-        for (int i = 0; i < length; i++) {
-            HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("ItemImage", imageRes[i]);//添加图像资源的ID
-            map.put("ItemText", name[i]);//按序号做ItemText
-            lstImageItem.add(map);
-        }
-        //生成适配器的ImageItem 与动态数组的元素相对应
-        SimpleAdapter saImageItems = new SimpleAdapter(this,
-                lstImageItem,//数据来源
-                R.layout.item_nine,//item的XML实现
+                    intent.putExtra("ub_id_1", rpc_up.get(0).getUb_id());
+                    intent.putExtra("ud_nickname_1", rpc_up.get(0).getUd_nickname());
 
-                //动态数组与ImageItem对应的子项
-                new String[]{"ItemImage", "ItemText"},
+                    intent.putExtra("ub_id_2", rpc_up.get(1).getUb_id());
+                    intent.putExtra("ud_nickname_2", rpc_up.get(1).getUd_nickname());
 
-                //ImageItem的XML文件里面的一个ImageView,两个TextView ID
-                new int[]{R.id.img_shoukuan, R.id.txt_shoukuan});
-        //添加并且显示
-        gridview.setAdapter(saImageItems);
-        //添加消息处理
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    intent.putExtra("ub_id_3", rpc_up.get(2).getUb_id());
+                    intent.putExtra("ud_nickname_3", rpc_up.get(2).getUd_nickname());
 
+                    intent.putExtra("ub_id_4", rpc_up.get(3).getUb_id());
+                    intent.putExtra("ud_nickname_4", rpc_up.get(3).getUd_nickname());
 
-//                Toast.makeText(MainActivity.this, position+"", Toast.LENGTH_LONG).show();
-                if (position==0){
-                    Intent intent=new Intent(MainActivity.this, RedPacketActivity.class);
-                    startActivity(intent);
-                    finish();
+                    intent.putExtra("ub_id_5", rpc_up.get(4).getUb_id());
+                    intent.putExtra("ud_nickname_5", rpc_up.get(4).getUd_nickname());
 
-                }else if (position==1){
-
-//                    Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
-//                    startActivityForResult(intent, REQUEST_CODE);
-                    Intent intent=new Intent(MainActivity.this, ScanUI.class);
                     startActivity(intent);
 
-                }else if (position==2){
-//                    ToastUtil.showToast(MainActivity.this,"敬请期待");
-//                    finish();
-                    Intent intent=new Intent(MainActivity.this, ReceiptCodeUI.class);
-                    startActivity(intent);
-
-                }else if (position==3){
-//                     startActivity(new Intent(MainActivity.this,TransferActivity.class));
-//                    finish();
-                    Intent intent=new Intent(MainActivity.this, TransferUI.class);
-                    startActivity(intent);
-
-                }else if (position==4){
-//                    startActivity(new Intent(MainActivity.this,BalanceActivity.class));
-//                    finish();
-                    Intent intent=new Intent(MainActivity.this, BalanceRecordUI.class);
-                    startActivity(intent);
-                }else if (position==6){
-                    Intent intent=new Intent(MainActivity.this, InviteFriendUI.class);
-                    startActivity(intent);
-                }else if (position==8){
-
-                    startActivity(new Intent(MainActivity.this,MyActivity.class));
-                    finish();
 
                 }
+            });
 
-
-
-            }
-        });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE) {
-            //处理扫描结果（在界面上显示）
-//            if (null != data) {
-//                Bundle bundle = data.getExtras();
-//                if (bundle == null) {
-//                    return;
-//                }
-//                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
-//                    String result = bundle.getString(CodeUtils.RESULT_STRING);
-//                    Toast.makeText(this, "解析结果:" + result, Toast.LENGTH_LONG).show();
-//                    startActivity(new Intent(MainActivity.this, PayMentActivity.class));
-//                    finish();
-//
-//
-//                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-//                    Toast.makeText(MainActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
-//                }
-//            }
+            return;
         }
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        postRequest(sid);
+
+    }
 
     private void initView() {
-        banner = findViewById(R.id.banner);
-        list_path= new ArrayList<>();
-        list_title= new ArrayList<>();
 
-        list_path.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic21363tj30ci08ct96.jpg");
-        list_path.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic259ohaj30ci08c74r.jpg");
-        list_path.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic2b16zuj30ci08cwf4.jpg");
-        list_path.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic2e7vsaj30ci08cglz.jpg");
-        list_title.add("好好学习");
-        list_title.add("天天向上");
-        list_title.add("热爱劳动");
-        list_title.add("不搞对象");
-        //设置内置样式，共有六种可以点入方法内逐一体验使用。
-        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
-        //设置图片加载器，图片加载器在下方
-        banner.setImageLoader(new MyLoader());
-        //设置图片网址或地址的集合
-        banner.setImages(list_path);
-        //设置轮播的动画效果，内含多种特效，可点入方法内查找后内逐一体验
-        banner.setBannerAnimation(Transformer.Default);
-        //设置轮播图的标题集合
-        banner.setBannerTitles(list_title);
-        //设置轮播间隔时间
-        banner.setDelayTime(3000);
-        //设置是否为自动轮播，默认是“是”。
-        banner.isAutoPlay(true);
-        //设置指示器的位置，小点点，左中右。
-        banner.setIndicatorGravity(BannerConfig.CENTER)
-                //以上内容都可写成链式布局，这是轮播图的监听。比较重要。方法在下面。
-                .setOnBannerListener(this)
-                //必须最后调用的方法，启动轮播图。
-                .start();
+        home_count_page1 = findViewById(R.id.home_count_page1);
+        home_num_page1 = findViewById(R.id.home_num_page1);
 
 
+        red_packet_ok = findViewById(R.id.red_packet_ok1);
 
+        mViewSwitcher = findViewById(R.id.viewswitcher);
+        mViewSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                return getLayoutInflater().inflate(R.layout.item_viewswitch, null);
+            }
+        });
+
+
+//设置切入动画
+        TranslateAnimation animationTop = new TranslateAnimation(0, 0, 200, 0);
+        animationTop.setFillAfter(true);
+        animationTop.setDuration(200);
+        //设置切出动画
+        TranslateAnimation animationBottom = new
+                TranslateAnimation(0, 0, 0, -200);
+        animationBottom.setFillAfter(true);
+        animationBottom.setDuration(200);
+        mViewSwitcher.setInAnimation(animationTop);
+        mViewSwitcher.setOutAnimation(animationBottom);
+        mTimer.schedule(mTimerTask, 1000, 4000);
+
+
+        mImgWelcome = (ImageView) findViewById(R.id.img_welcome);
+        mYe = (TextView) findViewById(R.id.ye);
+        mHomeNumPage1 = (TextView) findViewById(R.id.home_num_page1);
+        mTextView = (TextView) findViewById(R.id.textView);
+        mHomeCountPage1 = (TextView) findViewById(R.id.home_count_page1);
+        mFe1 = (ImageView) findViewById(R.id.fe1);
+        mHblImg = (ImageView) findViewById(R.id.hbl_img);
+        mHblImg.setOnClickListener(this);
+        mHblTv = (TextView) findViewById(R.id.hbl_tv);
+        mHblTv.setOnClickListener(this);
+        mZfImg = (ImageView) findViewById(R.id.zf_img);
+        mZfImg.setOnClickListener(this);
+        mZfTv = (TextView) findViewById(R.id.zf_tv);
+        mZfTv.setOnClickListener(this);
+        mSkmImg = (ImageView) findViewById(R.id.skm_img);
+        mSkmImg.setOnClickListener(this);
+        mSkmTv = (TextView) findViewById(R.id.skm_tv);
+        mSkmTv.setOnClickListener(this);
+        mZzImg = (ImageView) findViewById(R.id.zz_img);
+        mZzImg.setOnClickListener(this);
+        mZzTv = (TextView) findViewById(R.id.zz_tv);
+        mZzTv.setOnClickListener(this);
+        mYejlImg = (ImageView) findViewById(R.id.yejl_img);
+        mYejlImg.setOnClickListener(this);
+        mYejlTv = (TextView) findViewById(R.id.yejl_tv);
+        mYejlTv.setOnClickListener(this);
+        mScImg = (ImageView) findViewById(R.id.sc_img);
+        mScImg.setOnClickListener(this);
+        mScTv = (TextView) findViewById(R.id.sc_tv);
+        mScTv.setOnClickListener(this);
+        mYqhyImg = (ImageView) findViewById(R.id.yqhy_img);
+        mYqhyImg.setOnClickListener(this);
+        mYqhyTv = (TextView) findViewById(R.id.yqhy_tv);
+        mYqhyTv.setOnClickListener(this);
+        mSzzcImg = (ImageView) findViewById(R.id.szzc_img);
+        mSzzcImg.setOnClickListener(this);
+        mSzzcTv = (TextView) findViewById(R.id.szzc_tv);
+        mSzzcTv.setOnClickListener(this);
+        mWdImg = (ImageView) findViewById(R.id.wd_img);
+        mWdImg.setOnClickListener(this);
+        mWdTv = (TextView) findViewById(R.id.wd_tv);
+        mWdTv.setOnClickListener(this);
+        mRedPacketOk = (TextView) findViewById(R.id.red_packet_ok1);
+        mRedPacketOk.setOnClickListener(this);
     }
+
+    //滚动
+    Timer mTimer = new Timer();
+    TimerTask mTimerTask = new TimerTask() {
+        @Override
+        public void run() {
+            mHandler1.sendEmptyMessage(0);
+        }
+    };
+    Handler mHandler1 = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            ((TextView) mViewSwitcher.getNextView().findViewById(R.id.viewswitcher_tv_one)).setText("中包赠送价值200元的套餐");
+            mViewSwitcher.showNext();
+        }
+    };
 
     @Override
-    public void OnBannerClick(int position) {
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler1.removeCallbacksAndMessages(null);
+    }
 
-        Toast.makeText(this, "你点击了"+position, Toast.LENGTH_SHORT).show();
+    private void postRequest(String sid) {
+        //建立请求表单，添加上传服务器的参数
+        RequestBody formBody = new FormBody.Builder()
+
+
+                .add("sid", sid)
+                .add("index", "")
+                .add("ub_id", "")
+                .add("uo_long", "")
+                .add("uo_lat", "")
+                .add("uo_high", "")
+
+
+                .build();
+        //发起请求
+        final Request request = new Request.Builder()
+
+                .url("http://rpc.frps.lchtime.cn/index.php/rpc/index")
+                .post(formBody)
+                .build();
+        //新建一个线程，用于得到服务器响应的参数
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Response response = null;
+                try {
+                    //回调
+                    response = client.newCall(request).execute();
+                    if (response.isSuccessful()) {
+                        //将服务器响应的参数response.body().string())发送到hanlder中，并更新ui
+                        mHandler.obtainMessage(1, response.body().string()).sendToTarget();
+
+                    } else {
+                        throw new IOException("Unexpected code:" + response);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
 
     }
 
-    private class MyLoader extends ImageLoader {
 
-        @Override
-        public void displayImage(Context context, Object path, ImageView imageView) {
-            Glide.with(context).load((String) path).into(imageView);
+    @Override
+    public void onClick(View v) {
+        if (rpc_level==1){
+
+
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.hbl_img:
+                ToastUtil.showToast(MainActivity.this, "敬请期待");
+
+                break;
+            case R.id.hbl_tv:
+                ToastUtil.showToast(MainActivity.this, "敬请期待");
+
+                break;
+            case R.id.zf_img:
+                Intent intent = new Intent(MainActivity.this, ScanUI.class);
+                startActivity(intent);
+
+                break;
+            case R.id.zf_tv:
+                Intent intenttv = new Intent(MainActivity.this, ScanUI.class);
+                startActivity(intenttv);
+                break;
+            case R.id.skm_img:
+                Intent intentskm = new Intent(MainActivity.this, ReceiptCodeUI.class);
+                startActivity(intentskm);
+
+                break;
+            case R.id.skm_tv:
+                Intent intentskmtv = new Intent(MainActivity.this, ReceiptCodeUI.class);
+                startActivity(intentskmtv);
+
+                break;
+            case R.id.zz_img:
+                Intent intentzz = new Intent(MainActivity.this, TransferUI.class);
+                startActivity(intentzz);
+
+                break;
+            case R.id.zz_tv:
+                Intent intentzztv = new Intent(MainActivity.this, TransferUI.class);
+                startActivity(intentzztv);
+
+                break;
+            case R.id.yejl_img:
+                Intent intentjl = new Intent(MainActivity.this, BalanceRecordUI.class);
+                startActivity(intentjl);
+
+                break;
+            case R.id.yejl_tv:
+                Intent intentjltv = new Intent(MainActivity.this, BalanceRecordUI.class);
+                startActivity(intentjltv);
+
+                break;
+            case R.id.sc_img:
+                ToastUtil.showToast(MainActivity.this, "敬请期待");
+
+                break;
+            case R.id.sc_tv:
+                ToastUtil.showToast(MainActivity.this, "敬请期待");
+
+                break;
+            case R.id.yqhy_img:
+                Intent intentyqhy = new Intent(MainActivity.this, InviteFriendUI.class);
+                startActivity(intentyqhy);
+
+                break;
+            case R.id.yqhy_tv:
+                Intent intentyqhytv = new Intent(MainActivity.this, InviteFriendUI.class);
+                startActivity(intentyqhytv);
+
+                break;
+            case R.id.szzc_img:
+                ToastUtil.showToast(MainActivity.this, "敬请期待");
+                break;
+            case R.id.szzc_tv:
+                ToastUtil.showToast(MainActivity.this, "敬请期待");
+                break;
+            case R.id.wd_img:
+                startActivity(new Intent(MainActivity.this, MyActivity.class));
+
+                break;
+            case R.id.wd_tv:
+                startActivity(new Intent(MainActivity.this, MyActivity.class));
+
+                break;
 
         }
+        }
     }
-
-
-
-
 }

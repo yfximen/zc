@@ -1,17 +1,97 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical">
+  >
 
-    <include layout="@layout/include_title" />
+    <ImageView
+        android:layout_marginBottom="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px_388"
+        android:src="@mipmap/z3x"
+        android:id="@+id/img_welcome"
+        android:scaleType="fitXY"
+        />
 
-    <include layout="@layout/line_20" />
+    <TextView
+
+        android:layout_below="@+id/img_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="余额:"
+        android:layout_marginLeft="@dimen/px_28"
+        android:layout_marginTop="@dimen/px_28"
+        android:layout_marginBottom="@dimen/px_36"
+
+        android:id="@+id/ye"
+        />
+
+    <TextView
+        android:text="1000"
+        android:layout_below="@+id/img_welcome"
+        android:id="@+id/receipt_num_page1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/px_90"
+        android:layout_marginLeft="@dimen/px_28"
+        android:layout_marginTop="@dimen/px_28"
+        android:layout_marginBottom="@dimen/px_36"
+        />
+
+    <TextView
+        android:background="@color/white"
+        android:clickable="true"
+
+        android:id="@+id/red_packet_ok1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/px_18"
+        android:layout_marginLeft="@dimen/px_280"
+        android:text=""
+        android:layout_below="@+id/img_welcome"
+        android:textColor="#af00"
+        android:textSize="18dp" />
+
+
+    <TextView
+        android:layout_below="@+id/img_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="红包数:"
+        android:layout_marginLeft="@dimen/px_500"
+        android:layout_marginTop="@dimen/px_28"
+        android:layout_marginBottom="@dimen/px_36"
+        android:id="@+id/textView" />
+
+    <TextView
+        android:text="1000"
+
+        android:layout_below="@+id/img_welcome"
+        android:id="@+id/receipt_count_page1"
+        android:layout_marginTop="@dimen/px_28"
+        android:layout_marginBottom="@dimen/px_36"
+        android:layout_marginRight="@dimen/px_28"
+        android:layout_marginLeft="@dimen/px_620"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_below="@id/receipt_count_page1"
+        android:layout_width="match_parent"
+        android:scaleType="fitXY"
+        android:src="@mipmap/fg_2x"
+        android:id="@+id/fe1"
+        android:layout_height="wrap_content" />
+
+
 
     <LinearLayout
+
+        android:id="@+id/ls"
+        android:layout_below="@id/fe1"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="80dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="30dp"
@@ -23,7 +103,6 @@
             android:text="对方账号:"
             android:textColor="@color/gray_666"
             android:textSize="13sp" />
-
         <EditText
             android:id="@+id/et_transfer_phone"
             style="@style/edit_style"
@@ -31,12 +110,18 @@
             android:layout_height="35dp"
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
-            android:background="@drawable/sp_bd_gray_cor"
-            android:hint="请输入对方账号" />
+             android:textColor="@color/gray_666"
+
+            android:inputType="number"
+            android:background="@drawable/sp_bd_ee"
+            />
+
+
 
     </LinearLayout>
 
     <TextView
+        android:layout_below="@+id/ls"
         android:id="@+id/tv_transfer_next"
         style="@style/textview_style"
         android:layout_marginBottom="40dp"
@@ -45,4 +130,4 @@
         android:layout_marginTop="80dp"
         android:text="下一步" />
 
-</LinearLayout>
+</RelativeLayout>

@@ -1,14 +1,17 @@
 package com.example.apac.rpcdata.ui;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.apac.rpcdata.MainActivity;
@@ -25,7 +28,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class RegisterAcitivy extends AppCompatActivity {
+public class RegisterAcitivy extends Activity implements View.OnClickListener {
 
     private EditText tjr_phone;
     private EditText tvpassword;
@@ -39,13 +42,13 @@ public class RegisterAcitivy extends AppCompatActivity {
 
     final OkHttpClient client = new OkHttpClient();
 
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
 
         @Override
-        public void handleMessage(Message msg){
-            if(msg.what==1){
+        public void handleMessage(Message msg) {
+            if (msg.what == 1) {
                 String ReturnMessage = (String) msg.obj;
-                Log.i("获取的返回信息",ReturnMessage);
+                Log.i("获取的返回信息", ReturnMessage);
                 UserBean userBean = new Gson().fromJson(ReturnMessage, UserBean.class);
                 String AA = userBean.getUb_id();
                 String info = userBean.getResult().getInfo();
@@ -62,45 +65,25 @@ public class RegisterAcitivy extends AppCompatActivity {
     };
     private UserBean userBean;
     private String info;
+    private ImageView mBackMain;
+    /**
+     * 注册
+     */
+    private TextView mRegBtzc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.activity_register_acitivy);
         initView();
         initData();
 
     }
+
     private void initData() {
-        btzc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(RegisterAcitivy.this, "ss", Toast.LENGTH_SHORT).show();
-                if (tjr_phone.getText().toString().equals("")||reg_ud_pwd.getText().toString().equals("")||ub_phone.getText().toString().equals("")||tvpassword.getText().toString().equals("")){
-                    Toast.makeText(RegisterAcitivy.this, "请完善信息！", Toast.LENGTH_SHORT).show();
-                    return;
 
-                }else if (!reg_ud_pwd.getText().toString().equals(tvpassword.getText().toString())){
-                    Toast.makeText(RegisterAcitivy.this, "请确认密码是否一致！", Toast.LENGTH_SHORT).show();
-                    return;
-                }else {
-
-                    //推介人账号
-                    tjr_phone1 = tjr_phone.getText().toString();
-                    //密码
-                    tvpassword1 = tvpassword.getText().toString();
-
-                    AppMD5Util appMD5Util = new AppMD5Util();
-                    String s = appMD5Util.MD5Util(tvpassword1);
-                    //本人账号
-                    ub_phone1 = ub_phone.getText().toString();
-                    postRequest(tjr_phone1,s,ub_phone1);
-
-                }
-
-
-            }
-        });
     }
 
     private void initView() {
@@ -108,34 +91,35 @@ public class RegisterAcitivy extends AppCompatActivity {
         tvpassword = findViewById(R.id.reg_tvpassword);
         reg_ud_pwd = findViewById(R.id.reg_ud_pwd);
         ub_phone = findViewById(R.id.reg_ub_phone);
-        btdl = findViewById(R.id.reg_btdl);
-        btzc = findViewById(R.id.reg_btzc);
 
 
-
+        mBackMain = findViewById(R.id.img_back);
+        mBackMain.setOnClickListener(this);
+        mRegBtzc = (TextView) findViewById(R.id.reg_btzc);
+        mRegBtzc.setOnClickListener(this);
     }
 
 
-    private void postRequest(String tjr_phone1,String tvpassword1,String ub_phone1)  {
+    private void postRequest(String tjr_phone1, String tvpassword1, String ub_phone1) {
         //建立请求表单，添加上传服务器的参数
         RequestBody formBody = new FormBody.Builder()
-                .add("tjr_phone",tjr_phone1)
-                .add("ud_pwd",tvpassword1)
-                .add("ub_phone",ub_phone1)
+                .add("tjr_phone", tjr_phone1)
+                .add("ud_pwd", tvpassword1)
+                .add("ub_phone", ub_phone1)
 
-                .add("sid","")
-                .add("index","")
-                .add("uo_lat","")
-                .add("uo_long","")
-                .add("uo_high","")
-                .add("ub_id","")
-                .add("ud_ol_status","1")
+                .add("sid", "")
+                .add("index", "")
+                .add("uo_lat", "")
+                .add("uo_long", "")
+                .add("uo_high", "")
+                .add("ub_id", "")
+                .add("ud_ol_status", "1")
 
 
                 .build();
         //发起请求
         final Request request = new Request.Builder()
-                .url("http://rpc.frps.lchtime.cn/index.php/user/reg?")
+                .url("http://rpc.frps.lchtime.cn/index.php/user/reg")
                 .post(formBody)
                 .build();
         //新建一个线程，用于得到服务器响应的参数
@@ -159,5 +143,45 @@ public class RegisterAcitivy extends AppCompatActivity {
             }
         }).start();
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.img_back:
+                startActivity(new Intent(RegisterAcitivy.this, MainActivity.class));
+                finish();
+                break;
+
+            case R.id.reg_btzc:
+                Toast.makeText(RegisterAcitivy.this, "ss", Toast.LENGTH_SHORT).show();
+                if (tjr_phone.getText().toString().equals("") || reg_ud_pwd.getText().toString().equals("") || ub_phone.getText().toString().equals("") || tvpassword.getText().toString().equals("")) {
+                    Toast.makeText(RegisterAcitivy.this, "请完善信息！", Toast.LENGTH_SHORT).show();
+                    return;
+
+                } else if (!reg_ud_pwd.getText().toString().equals(tvpassword.getText().toString())) {
+                    Toast.makeText(RegisterAcitivy.this, "请确认密码是否一致！", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+
+                    //推介人账号
+                    tjr_phone1 = tjr_phone.getText().toString();
+                    //密码
+                    tvpassword1 = tvpassword.getText().toString();
+
+                    AppMD5Util appMD5Util = new AppMD5Util();
+                    String s = appMD5Util.MD5Util(tvpassword1);
+                    Log.i("MD5", s);
+                    //本人账号
+                    ub_phone1 = ub_phone.getText().toString();
+                    postRequest(tjr_phone1, s, ub_phone1);
+
+                }
+
+
+                break;
+        }
     }
 }

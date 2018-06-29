@@ -1,12 +1,14 @@
 package com.example.apac.rpcdata.ui.balancerecord;
 
 import android.support.v7.widget.LinearLayoutManager;
+import android.widget.TextView;
 
 import com.example.apac.rpcdata.R;
 import com.example.apac.rpcdata.adapter.BalanceRecordAdapter;
 import com.example.apac.rpcdata.bean.BalanceRecordBean;
 import com.example.apac.rpcdata.bean.BalanceRecordListBean;
 import com.example.apac.rpcdata.ui.BaseUI;
+import com.example.apac.rpcdata.utils.Sp;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -25,6 +27,11 @@ public class BalanceRecordUI extends BaseUI implements XRecyclerView.LoadingList
     @BindView(R.id.xrv_balance_record)
     XRecyclerView xrv_balance_record;
 
+    @BindView(R.id.receipt_count_page1)
+    TextView receipt_count_page1;
+    @BindView(R.id.receipt_num_page1)
+    TextView receipt_num_page1;
+
     private BalanceRecordAdapter balanceRecordAdapter;
     private BalanceRecordP balanceRecordP;
     private List<BalanceRecordListBean> balanceRecordListBeanList;
@@ -42,6 +49,10 @@ public class BalanceRecordUI extends BaseUI implements XRecyclerView.LoadingList
 
     @Override
     protected void setControlBasis() {
+        String count = Sp.getInData(this).getCount();
+        String num = Sp.getInData(this).getNum();
+        receipt_count_page1.setText(count);
+        receipt_num_page1.setText(num);
         setTitle("余额记录");
         balanceRecordP = new BalanceRecordP(this, getActivity());
         initAdapter();

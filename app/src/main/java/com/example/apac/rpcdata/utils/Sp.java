@@ -32,15 +32,71 @@ public class Sp {
     }
 
 
-public void setDate(String str){
+   public void setUserName(String str){
     SharedPreferences.Editor edit = sharedPreferences.edit();
-    edit.putString("yf",str);
+    edit.putString("Uname",str);
 
     edit.commit();
     }
-    public String getDate(){
-        return sharedPreferences.getString("yf","");
+
+    public void setUserPwd(String str){
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putString("Upwd",str);
+
+        edit.commit();
     }
 
+    public void setSid(String str){
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putString("Sid",str);
+
+        edit.commit();
+    }
+
+
+    public void setLayoutPosit(String str){
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putString("posit",str);
+
+        edit.commit();
+    }
+    public void setCount(String str){
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putString("count",str);
+
+        edit.commit();
+    }
+    public String getCount(){
+        return sharedPreferences.getString("count","");
+    }
+
+    public void setNum(String str){
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putString("num",str);
+
+        edit.commit();
+    }
+    public String getNum(){
+        return sharedPreferences.getString("num","");
+    }
+
+
+
+    public String getLayoutPosit(){
+        return sharedPreferences.getString("posit","");
+    }
+
+
+    public String getSid(){
+        return sharedPreferences.getString("Sid","");
+    }
+
+    public String getUserName(){
+        return sharedPreferences.getString("Uname","");
+    }
+
+    public String getUserPwd(){
+        return sharedPreferences.getString("Upwd","");
+    }
 
 }

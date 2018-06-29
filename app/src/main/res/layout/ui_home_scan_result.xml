@@ -30,7 +30,7 @@
             android:layout_height="35dp"
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
-            android:background="@drawable/sp_bd_gray_cor"
+            android:background="@drawable/sp_bd_ee"
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:maxLines="1"
@@ -66,7 +66,7 @@
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:inputType="numberDecimal"
-            android:background="@drawable/sp_bd_gray_cor"
+            android:background="@drawable/sp_bd_ee"
             android:hint="请输入余额" />
 
     </LinearLayout>
@@ -93,7 +93,7 @@
             android:layout_height="35dp"
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
-            android:background="@drawable/sp_bd_gray_cor"
+            android:background="@drawable/sp_bd_ee"
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:maxLines="1"
@@ -129,7 +129,7 @@
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:inputType="textPassword"
-            android:background="@drawable/sp_bd_gray_cor"
+            android:background="@drawable/sp_bd_ee"
             android:hint="请输入密码" />
 
     </LinearLayout>

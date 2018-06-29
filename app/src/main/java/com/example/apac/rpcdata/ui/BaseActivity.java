@@ -1,5 +1,6 @@
 package com.example.apac.rpcdata.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +14,7 @@ import butterknife.ButterKnife;
  * Created by lchtime4 on 2018/5/29.
  */
 
-public class BaseActivity extends AppCompatActivity implements View.OnClickListener{
+public class BaseActivity extends Activity implements View.OnClickListener{
 
 
 

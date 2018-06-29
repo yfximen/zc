@@ -1,14 +1,21 @@
 package com.example.apac.rpcdata.ui.pay;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Vibrator;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
 import com.example.apac.rpcdata.R;
 import com.example.apac.rpcdata.ui.BaseUI;
+
+import java.io.File;
 
 import butterknife.BindView;
 import cn.bingoogolapple.qrcode.core.QRCodeView;
@@ -19,6 +26,7 @@ import cn.bingoogolapple.qrcode.core.QRCodeView;
  */
 
 public class ScanUI extends BaseUI implements QRCodeView.Delegate {
+
 
     @BindView(R.id.zxingview)
     QRCodeView mQRCodeView;
@@ -32,6 +40,7 @@ public class ScanUI extends BaseUI implements QRCodeView.Delegate {
     protected int getLayout() {
         return R.layout.ui_home_scan;
     }
+
 
     @Override
     protected void setControlBasis() {

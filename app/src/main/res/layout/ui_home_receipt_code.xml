@@ -1,22 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:gravity="center_horizontal"
-    android:orientation="vertical">
+     >
 
-    <include layout="@layout/include_title" />
-
-    <include layout="@layout/line_20" />
 
     <ImageView
+        android:layout_marginBottom="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px_388"
+         android:background="@mipmap/z3x"
+        android:id="@+id/img_welcome"
+         android:scaleType="fitXY"
+        />
+ <ImageView
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:src="@mipmap/back2x"
+     android:layout_marginTop="@dimen/px_40"
+     android:layout_marginLeft="@dimen/px_40"
+     android:id="@+id/go_maincode"
+     />
+    <TextView
+
+        android:layout_below="@+id/img_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="余额:"
+        android:layout_marginLeft="@dimen/px_28"
+        android:layout_marginTop="@dimen/px_28"
+        android:layout_marginBottom="@dimen/px_36"
+
+        android:id="@+id/ye"
+        />
+
+    <TextView
+        android:text="1000"
+        android:layout_below="@+id/img_welcome"
+        android:id="@+id/receipt_num_page1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/px_90"
+        android:layout_marginLeft="@dimen/px_28"
+        android:layout_marginTop="@dimen/px_28"
+        android:layout_marginBottom="@dimen/px_36"
+        />
+
+    <TextView
+        android:background="@color/white"
+        android:clickable="true"
+
+        android:id="@+id/red_packet_ok1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/px_18"
+        android:layout_marginLeft="@dimen/px_280"
+        android:text=""
+        android:layout_below="@+id/img_welcome"
+        android:textColor="#af00"
+        android:textSize="18dp" />
+
+
+    <TextView
+        android:layout_below="@+id/img_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="红包数:"
+        android:layout_marginLeft="@dimen/px_500"
+        android:layout_marginTop="@dimen/px_28"
+        android:layout_marginBottom="@dimen/px_36"
+        android:id="@+id/textView" />
+
+    <TextView
+        android:text="1000"
+
+        android:layout_below="@+id/img_welcome"
+        android:id="@+id/receipt_count_page1"
+        android:layout_marginTop="@dimen/px_28"
+        android:layout_marginBottom="@dimen/px_36"
+        android:layout_marginRight="@dimen/px_28"
+        android:layout_marginLeft="@dimen/px_620"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_below="@id/receipt_count_page1"
+        android:layout_width="match_parent"
+        android:scaleType="fitXY"
+        android:src="@mipmap/fg_2x"
+        android:id="@+id/fe1"
+        android:layout_height="wrap_content" />
+
+
+    <ImageView
+        android:layout_marginLeft="@dimen/px_202"
+        android:layout_below="@+id/fe1"
         android:id="@+id/iv_receipt_code"
         android:layout_width="160dp"
         android:layout_height="160dp"
         android:layout_marginTop="40dp" />
 
     <TextView
+        android:layout_marginLeft="@dimen/px_304"
+
+        android:layout_below="@+id/iv_receipt_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -24,4 +113,4 @@
         android:textColor="@color/gray_666"
         android:textSize="12sp" />
 
-</LinearLayout>
+</RelativeLayout>
